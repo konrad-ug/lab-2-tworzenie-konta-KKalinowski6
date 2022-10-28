@@ -11,12 +11,14 @@ class TestCreateBankAccount(unittest.TestCase):
         niepoprawny_pesel = "666"
         pesel_upowazniony_do_promocji = "65071284261"
         kod_rabatowy = "PROM_XYZ"
+        pesel_po_2000 = "01234567898"
 
         pierwsze_konto = Konto(imie, nazwisko, poprawny_pesel)
-        konto_ze_zlym_peselem = Konto(imie, nazwisko, niepoprawny_pesel)
         konto_z_kodem = Konto(imie, nazwisko, pesel_upowazniony_do_promocji, kod_rabatowy)
+        konto_ze_zlym_peselem = Konto(imie, nazwisko, niepoprawny_pesel)
         konto_ze_zlym_kodem = Konto(imie, nazwisko, poprawny_pesel, "ABC")
         konto_seniora = Konto(imie, nazwisko, poprawny_pesel, kod_rabatowy)
+        konto_po_2000 = Konto(imie, nazwisko, pesel_po_2000, kod_rabatowy)
 
         #feature 1
         self.assertEqual(pierwsze_konto.imie, imie, "Imie nie zostało zapisane!")
@@ -28,7 +30,7 @@ class TestCreateBankAccount(unittest.TestCase):
 
         #feature 3
         self.assertEqual(len(pierwsze_konto.pesel), 11, "Niepoprawny pesel!")
-        self.assertNotEqual(len(konto_ze_zlym_peselem.pesel), 11, "Poprawny pesel nie został przyjety!")
+        self.assertEqual(konto_ze_zlym_peselem.error, "Error", "Poprawny pesel nie zostal przyjety")
 
         #feature 4
         self.assertEqual(konto_z_kodem.kod_rabatowy, kod_rabatowy or None, "Niepoprawny kod rabatowy!")
@@ -41,5 +43,6 @@ class TestCreateBankAccount(unittest.TestCase):
         #feature 5
         self.assertEqual(konto_z_kodem.saldo, 50, "Nienaliczono promocji!")
         self.assertEqual(konto_seniora.saldo, 0, "Naliczono promocje seniorowi!")
+        self.assertEqual(konto_po_2000.saldo, 50, "Nienlaiczono promocji po 2000!")
 
     #tutaj proszę dodawać nowe testy
