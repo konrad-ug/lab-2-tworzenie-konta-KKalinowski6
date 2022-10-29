@@ -16,7 +16,7 @@ class TestKsiegowaniaOperacji(unittest.TestCase):
         konto.Przelew_przychodzacy(50)
         self.assertEqual(konto.saldo, 50, "Przelew nie przyszedl!")
 
-        #Konta firmowe
+    def test_ksiegowanie_przelewow_przychodzacych_dla_kont_firmowych(self):
         konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
 
         konto_firmowe.Przelew_przychodzacy(50)
@@ -32,15 +32,15 @@ class TestKsiegowaniaOperacji(unittest.TestCase):
         konto.Przelew_wychodzacy(50)
         self.assertEqual(konto.saldo, 0, "Przelew wyszedl mimo braku srodkow!")
 
-        #Konta firmowe
+    def test_ksiegowanie_przelewow_wychodzacych_dla_kont_firmowych(self):
         konto_firmowe=Konto_Firmowe(self.nazwa_firmy, self.nip)
-        konto.saldo = 500
+        konto_firmowe.saldo = 500
 
-        konto.Przelew_wychodzacy(500)
-        self.assertEqual(konto.saldo, 0, "Przelew nie wyszedl!")
+        konto_firmowe.Przelew_wychodzacy(500)
+        self.assertEqual(konto_firmowe.saldo, 0, "Przelew nie wyszedl!")
 
-        konto.Przelew_wychodzacy(50)
-        self.assertEqual(konto.saldo, 0, "Przelew wyszedl mimo braku srodkow!")
+        konto_firmowe.Przelew_wychodzacy(50)
+        self.assertEqual(konto_firmowe.saldo, 0, "Przelew wyszedl mimo braku srodkow!")
 
     def test_seria_przelewow(self):
         konto = Konto(self.imie, self.nazwisko, self.pesel)
@@ -53,8 +53,7 @@ class TestKsiegowaniaOperacji(unittest.TestCase):
         konto.Przelew_wychodzacy(201)
         self.assertEqual(konto.saldo, 200, "Seria nie zostala operowana!")
 
-        #Konta firmowe
-
+    def test_seria_przelewow_dla_kont_firmowych(self):
         konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
 
         konto_firmowe.Przelew_przychodzacy(500)
@@ -74,8 +73,7 @@ class TestKsiegowaniaOperacji(unittest.TestCase):
         konto.Ekspresowy_przelew_wychodzacy(49)
         self.assertEqual(konto.saldo, 49, "Przelew eksresowy wyszedl mimo braku srodkow!")
 
-        #Konta firmowe
-
+    def test_przelew_ekspresowy_dla_kont_firmowych(self):
         konto_firmowe= Konto_Firmowe(self.nazwa_firmy, self.nip)
 
         konto_firmowe.saldo = 100

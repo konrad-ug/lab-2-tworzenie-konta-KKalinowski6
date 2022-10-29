@@ -5,16 +5,15 @@ class Konto:
             self.nazwisko = nazwisko
             self.pesel = pesel
             self.kod_rabatowy = kod_rabatowy
-            self.saldo = self.Naliczanie_promocji()
+            self.Naliczanie_promocji()
         else:
             self.error = "Error"
 
-    def Naliczanie_promocji(konto):
-        if (konto.kod_rabatowy == "PROM_XYZ" and (int(konto.pesel[0:2]) > 60 or int(konto.pesel[2]) > 1)):
-            return 50
+    def Naliczanie_promocji(self):
+        if (self.kod_rabatowy == "PROM_XYZ" and (int(self.pesel[0:2]) > 60 or int(self.pesel[2]) > 1)):
+            self.saldo = 50
         else:
-            return 0
-        pass
+            self.saldo = 0
 
     def Przelew_przychodzacy(self, wartosc):
         self.saldo += wartosc
