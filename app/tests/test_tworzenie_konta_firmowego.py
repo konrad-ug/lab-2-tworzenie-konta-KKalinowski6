@@ -18,6 +18,8 @@ class TestTworzenieKontaFirmowego(unittest.TestCase):
         self.assertEqual(firma_z_krotkim_nipem.nip, "Niepoprawny NIP!", "Zbyt krotki NIP firmy nie zostala zapisana")
         self.assertEqual(firma_z_dlugim_nipem.nip, "Niepoprawny NIP!", "Zbyt dlugi NIP firmy nie zostala zapisana")
     
+        self.assertEqual(firma.historia, [], "Historia firmy nie zostala utworzona!")
+
     def test_przelewy_firmowe(self):
         firma = Konto_Firmowe(self.nazwa_firmy, self.nip)
 

@@ -81,3 +81,71 @@ class TestKsiegowaniaOperacji(unittest.TestCase):
         self.assertEqual(konto_firmowe.saldo, 45, "Przelew ekspresowy konta firmowego nie wyszedl!")
         konto_firmowe.Ekspresowy_przelew_wychodzacy(41)
         self.assertEqual(konto_firmowe.saldo, 45, "Przelew eksresowy konta firmowego wyszedl mimo braku srodkow!")
+
+    def test_kiegowanie_historii_przelewow_przychodzacych(self):
+        konto = Konto(self.imie, self.nazwisko, self.pesel)
+
+        konto.Przelew_przychodzacy(100)
+        self.assertEqual(konto.historia, [100], "Przelew przychodzacy nie znalazł sie w historii!")
+
+    def test_kiegowanie_historii_przelewow_przychodzacych_dla_kont_firmowych(self):
+        konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
+
+        konto_firmowe.Przelew_przychodzacy(100)
+        self.assertEqual(konto_firmowe.historia, [100], "Przelew przychodzacy nie znalazł sie w historii!")
+
+    def test_kiegowanie_historii_przelewow_wychodzacych(self):
+        konto = Konto(self.imie, self.nazwisko, self.pesel)
+
+        konto.saldo = 120
+        konto.Przelew_wychodzacy(100)
+        self.assertEqual(konto.historia, [-100], "Przelew wychodzacy nie znalazł sie w historii!")
+        konto.Przelew_wychodzacy(50)
+        self.assertEqual(konto.historia, [-100], "Nie możliwy przelew wychodzacy znalazł sie w historii!")
+
+    def test_kiegowanie_historii_przelewow_wychodzacych_dla_kont_firmowych(self):
+        konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
+
+        konto_firmowe.saldo = 120
+        konto_firmowe.Przelew_wychodzacy(100)
+        self.assertEqual(konto_firmowe.historia, [-100], "Przelew wychodzacy nie znalazł sie w historii!")
+        konto_firmowe.Przelew_wychodzacy(50)
+        self.assertEqual(konto_firmowe.historia, [-100], "Nie możliwy przelew wychodzacy znalazł sie w historii!")
+
+    def test_kiegowanie_historii_serii_przelewow(self):
+        konto = Konto(self.imie, self.nazwisko, self.pesel)
+
+        konto.Przelew_przychodzacy(200)
+        konto.Przelew_wychodzacy(100)
+        konto.Przelew_przychodzacy(30)
+        konto.Przelew_wychodzacy(200)
+        konto.Przelew_wychodzacy(120)
+        self.assertEqual(konto.historia, [200,-100,30,-120], "Seria przelewow nie znalazla sie w historii")
+
+    def test_kiegowanie_historii_serii_przelewow_dla_kont_firmowych(self):
+        konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
+
+        konto_firmowe.Przelew_przychodzacy(200)
+        konto_firmowe.Przelew_wychodzacy(100)
+        konto_firmowe.Przelew_przychodzacy(30)
+        konto_firmowe.Przelew_wychodzacy(200)
+        konto_firmowe.Przelew_wychodzacy(120)
+        self.assertEqual(konto_firmowe.historia, [200,-100,30,-120], "Seria przelewow nie znalazla sie w historii")
+
+    def test_kiegowanie_historii_przelewow_ekspresowych(self):
+        konto = Konto(self.imie, self.nazwisko, self.pesel)
+
+        konto.saldo = 70
+        konto.Ekspresowy_przelew_wychodzacy(60)
+        self.assertEqual(konto.historia, [-60, -1], "Przelew ekspresowy nie znalazl sie w historii")
+        konto.Ekspresowy_przelew_wychodzacy(20)
+        self.assertEqual(konto.historia, [-60, -1], "Niemozliwy przelew ekspresowy znalazl sie w historii")
+    
+    def test_kiegowanie_historii_przelewow_ekspresowych_dla_kont_firmowych(self):
+        konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
+
+        konto_firmowe.saldo = 70
+        konto_firmowe.Ekspresowy_przelew_wychodzacy(60)
+        self.assertEqual(konto_firmowe.historia, [-60, -5], "Przelew ekspresowy nie znalazl sie w historii")
+        konto_firmowe.Ekspresowy_przelew_wychodzacy(20)
+        self.assertEqual(konto_firmowe.historia, [-60, -5], "Niemozliwy przelew ekspresowy znalazl sie w historii")
