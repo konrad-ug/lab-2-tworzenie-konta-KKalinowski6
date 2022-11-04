@@ -2,7 +2,7 @@ import unittest
 
 from ..Konto import Konto
 
-class TestCreateBankAccount(unittest.TestCase):
+class TestTworzeniaKonta(unittest.TestCase):
 
     def test_tworzenie_konta(self):
         imie = "Dariusz"
@@ -24,6 +24,8 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(len(pierwsze_konto.pesel), 11, "Niepoprawny pesel!")
         self.assertEqual(konto_z_dlugim_peselem.error, "Error", "Niepoprawny pesel zostal przyjety")
         self.assertEqual(konto_z_krotkim_peselem.error, "Error", "Niepoprawny pesel zostal przyjety")
+
+        self.assertEqual(pierwsze_konto.historia, [], "Historia nie zostala stworzona!")
     
     def test_naliczanie_promocji_do_konta(self):
         imie = "Dariusz"
@@ -49,5 +51,3 @@ class TestCreateBankAccount(unittest.TestCase):
 
         self.assertEqual(konto_seniora.saldo, 0, "Naliczono promocje seniorowi!")
         self.assertEqual(konto_po_2000.saldo, 50, "Nienlaiczono promocji po 2000!")
-
-    #tutaj proszę dodawać nowe testy

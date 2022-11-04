@@ -6,6 +6,7 @@ class Konto:
             self.pesel = pesel
             self.kod_rabatowy = kod_rabatowy
             self.Naliczanie_promocji()
+            self.historia = []
         else:
             self.error = "Error"
 
@@ -17,14 +18,17 @@ class Konto:
 
     def Przelew_przychodzacy(self, wartosc):
         self.saldo += wartosc
+        self.historia.append(wartosc)
 
     def Przelew_wychodzacy(self, wartosc):
         if (self.saldo - wartosc >= 0):
             self.saldo -= wartosc
+            self.historia.append(-wartosc)
 
     def Ekspresowy_przelew_wychodzacy(self, wartosc):
         if(self.saldo - wartosc - self.Nalicznie_oplaty_za_przelew_ekspresowy() >= 0):
             self.saldo -= wartosc + self.Nalicznie_oplaty_za_przelew_ekspresowy()
+            self.historia.extend([-wartosc, -self.Nalicznie_oplaty_za_przelew_ekspresowy()])
 
     def Nalicznie_oplaty_za_przelew_ekspresowy(self):
         return 1
@@ -34,6 +38,7 @@ class Konto_Firmowe(Konto):
         self.Sprawdzanie_NIP(nip)
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
+        self.historia = []
     
     def Sprawdzanie_NIP(self, nip):
         if (len(nip) == 10):
