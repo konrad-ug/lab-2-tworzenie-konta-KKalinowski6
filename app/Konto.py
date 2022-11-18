@@ -33,6 +33,25 @@ class Konto:
     def Nalicznie_oplaty_za_przelew_ekspresowy(self):
         return 1
 
+    def Zaciagnij_kredyt(self, wartosc):
+        if(len(self.historia) >= 5 and self.Sprawdzanie_5_ostatnich(wartosc) and self.Sprawdzanie_3_ostatnich()):
+            self.saldo += wartosc
+            return True
+        else:
+            return False
+
+    def Sprawdzanie_5_ostatnich(self, wartosc):
+        if(sum(self.historia[-5:]) > wartosc):
+            return True
+        else:
+            return False
+
+    def Sprawdzanie_3_ostatnich(self):
+        if(min(self.historia[-3:]) < 0):
+            return False
+        else:
+            return True
+
 class Konto_Firmowe(Konto):
     def __init__(self, nazwa_firmy, nip):
         self.Sprawdzanie_NIP(nip)
