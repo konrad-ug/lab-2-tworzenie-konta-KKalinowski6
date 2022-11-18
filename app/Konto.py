@@ -41,16 +41,10 @@ class Konto:
             return False
 
     def Sprawdzanie_5_ostatnich(self, wartosc):
-        if(sum(self.historia[-5:]) > wartosc):
-            return True
-        else:
-            return False
+        return True if (sum(self.historia[-5:]) > wartosc) else False
 
     def Sprawdzanie_3_ostatnich(self):
-        if(min(self.historia[-3:]) < 0):
-            return False
-        else:
-            return True
+        return False if(min(self.historia[-3:]) < 0) else True
 
 class Konto_Firmowe(Konto):
     def __init__(self, nazwa_firmy, nip):
@@ -58,7 +52,7 @@ class Konto_Firmowe(Konto):
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
         self.historia = []
-    
+
     def Sprawdzanie_NIP(self, nip):
         if (len(nip) == 10):
             self.nip =  nip
