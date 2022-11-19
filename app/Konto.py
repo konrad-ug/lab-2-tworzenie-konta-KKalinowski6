@@ -34,11 +34,17 @@ class Konto:
         return 1
 
     def Zaciagnij_kredyt(self, wartosc):
-        if(len(self.historia) >= 5 and self.Sprawdzanie_5_ostatnich(wartosc) and self.Sprawdzanie_3_ostatnich()):
+        if(self.Sprawdzanie_warunkow_kredytu(wartosc)):
             self.saldo += wartosc
             return True
         else:
             return False
+
+    def Sprawdzanie_warunkow_kredytu(self, wartosc):
+        if(len(self.historia) >= 5):
+            if(self.Sprawdzanie_5_ostatnich(wartosc) and self.Sprawdzanie_3_ostatnich()):
+                return True
+        return False
 
     def Sprawdzanie_5_ostatnich(self, wartosc):
         return True if (sum(self.historia[-5:]) > wartosc) else False
