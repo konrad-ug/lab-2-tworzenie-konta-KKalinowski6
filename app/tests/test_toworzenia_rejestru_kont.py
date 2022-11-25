@@ -9,23 +9,23 @@ class TestRejestru(unittest.TestCase):
         self.konto = Konto("Dariusz", "Kot", "55071284261")
 
     @classmethod
-    def SetUpClass(cls):
+    def setUpClass(cls):
         konto = Konto("Dariusz", "Kot", "55071284261")
         RejestrKont.Dodaj_konto(konto)
     
     def test_1_dodawanie_konta_do_rejestru(self):
         RejestrKont.Dodaj_konto(self.konto)
-        self.assertEqual(RejestrKont().Ile_kont(), 1, "Nie dodano konta do rejestru")
+        self.assertEqual(RejestrKont().Ile_kont(), 2, "Nie dodano konta do rejestru")
 
     def test_2_dodawania_konta_do_rejestru(self):
         RejestrKont.Dodaj_konto(self.konto)
         RejestrKont.Dodaj_konto(self.konto)
-        self.assertEqual(RejestrKont().Ile_kont(), 3, "Nie dodano kont do rejestru")
+        self.assertEqual(RejestrKont().Ile_kont(), 4, "Nie dodano kont do rejestru")
 
     def test_wyszukaj_konto(self):
-        self.assertEqual(RejestrKont().Wyszukaj_konto_peselem("55071284263").pesel, self.konto.pesel, "Nie znaleziono konta w rejestrze")
+        self.assertEqual(RejestrKont().Wyszukaj_konto_peselem("55071284261").pesel, self.konto.pesel, "Nie znaleziono konta w rejestrze")
     
-    def test_wyszukaj_konto(self):
+    def test_wyszukaj_nieistniejace_konto(self):
         self.assertEqual(RejestrKont().Wyszukaj_konto_peselem("55071284263"), None, "Nie znaleziono konta w rejestrze")
 
     @classmethod
