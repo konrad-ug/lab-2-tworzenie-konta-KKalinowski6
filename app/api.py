@@ -7,18 +7,22 @@ app = Flask(__name__)
 @app.route("/konta/stworz_konto", methods=['POST'])
 def stworz_konto():
     dane = request.get_json()
+    print(dane)
     print(f"Request o stworzenie konta z danymi: {dane}")
     konto = Konto(dane["imie"], dane["nazwisko"], dane["pesel"])
-    RejestrKont.dodaj_konto(konto)
+    RejestrKont().Dodaj_konto(konto)
     return jsonify("Konto stworzone"), 201
 
 @app.route("/konta/ile_kont", methods=['GET'])
 def ile_kont():
-    return f"Ilosc kont w rejestrze {RejestrKont.ile_kont()}", 200
+    return f"Ilosc kont w rejestrze {RejestrKont().Ile_kont()}", 200
 
 @app.route("/konta/konto/<pesel>", methods=['GET'])
 def wyszukaj_konto_z_peselem(pesel):
     print(f"Request o konto z peselem: {pesel}")
-    konto = RejestrKont.wyszukaj_konto_z_peselem(pesel)
+    konto = RejestrKont().Wyszukaj_konto_peselem(pesel)
     print(konto)
-    return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200
+    if (konto != None):
+        return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200
+    else:
+        return jsonify(f"Brak konta z peselem: {pesel}"), 200
