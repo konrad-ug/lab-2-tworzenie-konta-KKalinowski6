@@ -28,6 +28,10 @@ class TestRejestru(unittest.TestCase):
     def test_wyszukaj_nieistniejace_konto(self):
         self.assertEqual(RejestrKont().Wyszukaj_konto_peselem("55071284263"), None, "Nie znaleziono konta w rejestrze")
 
+    def test_zmien_wartosci_konta(self):
+        RejestrKont().Zmien_wartosci_konta("55071284263","Magda","","")
+        self.assertEqual(RejestrKont().Wyszukaj_konto_peselem("55071284263").imie, "Magda", "Niezmieniono danych")
+
     @classmethod
     def tearDownClass(cls):
         RejestrKont.list = []
