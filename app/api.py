@@ -15,14 +15,11 @@ def stworz_konto():
 
 @app.route("/konta/ile_kont", methods=['GET'])
 def ile_kont():
-    return f"Ilosc kont w rejestrze {RejestrKont().Ile_kont()}", 200
+    return jsonify(f"Ilosc kont w rejestrze {RejestrKont().Ile_kont()}"), 200
 
 @app.route("/konta/konto/<pesel>", methods=['GET'])
 def wyszukaj_konto_z_peselem(pesel):
     print(f"Request o konto z peselem: {pesel}")
     konto = RejestrKont().Wyszukaj_konto_peselem(pesel)
-    print(konto)
     if (konto != None):
-        return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel), 200
-    else:
-        return jsonify(f"Brak konta z peselem: {pesel}"), 200
+        return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
