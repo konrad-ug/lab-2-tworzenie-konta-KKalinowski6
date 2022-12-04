@@ -19,6 +19,10 @@ class TestRejestru(unittest.TestCase):
         RejestrKont.Dodaj_konto(self.konto1)
         self.assertEqual(RejestrKont().Ile_kont(), 2, "Nie dodano konta do rejestru")
 
+    def test_1_dodawanie_konta_do_rejestru_tego_samego(self):
+        RejestrKont.Dodaj_konto(self.konto1)
+        self.assertEqual(RejestrKont().Ile_kont(), 2, "Dodano konta do rejestru")
+
     def test_2_dodawania_konta_do_rejestru(self):
         RejestrKont.Dodaj_konto(self.konto2)
         RejestrKont.Dodaj_konto(self.konto3)
