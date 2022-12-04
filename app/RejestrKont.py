@@ -15,3 +15,14 @@ class RejestrKont:
             if i.pesel == pesel:
                 return i 
         return None
+
+    @classmethod
+    def Zmien_wartosci_konta(cls, pesel, imie="", nazwisko="", saldo=""):
+        konto = cls.Wyszukaj_konto_peselem(pesel)
+        if (konto != None):
+            if (imie != ""):
+                konto.imie = imie
+            if (nazwisko != ""):
+                konto.nazwisko = nazwisko
+            if (saldo != ""):
+                konto.saldo = saldo
