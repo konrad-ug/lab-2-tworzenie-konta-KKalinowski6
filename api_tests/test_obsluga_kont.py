@@ -7,6 +7,12 @@ class TestObslugaKont(unittest.TestCase):
         "nazwisko":"cave",
         "pesel":"89092909825"
     }
+    body2={
+        "old_pesel":"89092909825",
+        "pesel":"89092909826",
+        "nazwisko":"kot",
+        "saldo": 200
+    }
 
     url = "http://localhost:5000/"
 
@@ -21,3 +27,11 @@ class TestObslugaKont(unittest.TestCase):
         self.assertEqual(res_body["nazwisko"], self.body["nazwisko"])
         self.assertEqual(res_body["imie"], self.body["imie"])
         self.assertEqual(res_body["saldo"], 0)
+
+    def test_3_put_zmiana_danych(self):
+        put_resp = requests.put(self.url+"/konta/zmien_dane", json= self.body2)
+        self.assertEqual(put_resp.status_code, 200)
+
+    def test_4_delete_konto(self):
+        delete_resp = requests.delete(self.url+"/konta/usun_konto", json= {"pesel": "89092909826"})
+        self.assertEqual(delete_resp.status_code, 200)
