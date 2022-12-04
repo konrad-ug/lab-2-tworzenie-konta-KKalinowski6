@@ -15,7 +15,7 @@ def stworz_konto():
 
 @app.route("/konta/ile_kont", methods=['GET'])
 def ile_kont():
-    return jsonify(f"Ilosc kont w rejestrze {RejestrKont().Ile_kont()}"), 200
+    return f"Ilosc kont w rejestrze {RejestrKont().Ile_kont()}", 200
 
 @app.route("/konta/konto/<pesel>", methods=['GET'])
 def wyszukaj_konto_z_peselem(pesel):
