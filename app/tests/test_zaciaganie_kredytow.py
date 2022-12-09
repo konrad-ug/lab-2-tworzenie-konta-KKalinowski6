@@ -1,7 +1,8 @@
 import unittest
 from parameterized import parameterized
 
-from ..Konto import Konto, Konto_Firmowe
+from ..Konto import Konto
+from ..Konto_Firmowe import Konto_Firmowe
 
 class TestZaciaganiaKredytow(unittest.TestCase):
     imie = "Dariusz"
