@@ -5,7 +5,7 @@ from ..Konto_Firmowe import Konto_Firmowe
 
 class TestTworzenieKontaFirmowego(unittest.TestCase):
     nazwa_firmy = "Firma"
-    nip = "1234567890"
+    nip = "7772696293"
     krotki_nip = "222"
     dlugi_nip = "1111111111111111111"
 
