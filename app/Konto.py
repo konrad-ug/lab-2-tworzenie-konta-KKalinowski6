@@ -51,6 +51,3 @@ class Konto:
 
     def Sprawdzanie_3_ostatnich(self):
         return False if(min(self.historia[-3:]) < 0) else True
-
-
-

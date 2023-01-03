@@ -4,14 +4,16 @@ from datetime import date
 import os
 
 class Konto_Firmowe(Konto):
+    def __new__(cls, nazwa_firmy, nip):
+        if cls.Sprawdzanie_poprawnosci_NIP(nip) == "Pranie!":
+            return False
+        return super().__new__(cls)
+
     def __init__(self, nazwa_firmy, nip):
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
         self.historia = []
-        if not self.Sprawdzanie_poprawnosci_NIP(nip):
-            self.nip="Pranie!"
-        else:
-            self.nip=nip
+        self.nip=self.Sprawdzanie_poprawnosci_NIP(nip)
 
     def Nalicznie_oplaty_za_przelew_ekspresowy(self):
         return 5
@@ -27,12 +29,20 @@ class Konto_Firmowe(Konto):
     @classmethod
     def Sprawdzanie_poprawnosci_NIP(cls, nip):
         if (len(nip) == 10):
-            get_url = os.getenv("BANK_APP_MF_URL", "https://wl-api.mf.gov.pl/")
-            today_date = date.today()
-            get_resp = requests.get(f"{get_url}api/search/nip/{nip}?date={today_date}")
-            if (get_resp.status_code == 200):
-                return True
+            if cls.czy_nip_istnieje(nip):
+                return nip
             else:
-                return False
+                return "Pranie!"
         else:
-            return False
+            return "Niepoprawny NIP!"
+    
+    @classmethod
+    def czy_nip_istnieje(cls,nip):
+        get_url = os.getenv('BANK_APP_MF_URL', 'https://wl-api.mf.gov.pl/')
+        today_date = date.today()
+        url = f"{get_url}api/search/nip/{nip}?date={today_date}"
+        return cls.sprawdz_nip_gov(url)
+
+    @classmethod
+    def sprawdz_nip_gov(cls, url):
+        return requests.get(url)["status_code"] == 200
