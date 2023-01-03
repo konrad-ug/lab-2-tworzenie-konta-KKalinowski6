@@ -1,6 +1,7 @@
 import unittest
 
-from ..Konto import Konto, Konto_Firmowe
+from ..Konto import Konto
+from ..Konto_Firmowe import Konto_Firmowe
 from app.RejestrKont import RejestrKont
 
 class TestRejestru(unittest.TestCase):

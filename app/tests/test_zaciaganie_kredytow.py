@@ -1,7 +1,9 @@
 import unittest
 from parameterized import parameterized
+from unittest.mock import patch
 
-from ..Konto import Konto, Konto_Firmowe
+from ..Konto import Konto
+from ..Konto_Firmowe import Konto_Firmowe
 
 class TestZaciaganiaKredytow(unittest.TestCase):
     imie = "Dariusz"
@@ -10,7 +12,8 @@ class TestZaciaganiaKredytow(unittest.TestCase):
     nazwa_firmy = "Firma"
     nip = "1234567890"
 
-    def setUp(self):
+    @patch('app.Konto_Firmowe.Konto_Firmowe.sprawdz_nip_gov', return_value=True)
+    def setUp(self,mock):
         self.konto = Konto(self.imie, self.nazwisko, self.pesel)
         self.konto_firmowe = Konto_Firmowe(self.nazwa_firmy, self.nip)
     
