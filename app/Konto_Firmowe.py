@@ -46,3 +46,6 @@ class Konto_Firmowe(Konto):
     @classmethod
     def sprawdz_nip_gov(cls, url):
         return requests.get(url)["status_code"] == 200
+
+    def Tresc_maila(self):
+        return "Historia konta Twojej firmy to:"

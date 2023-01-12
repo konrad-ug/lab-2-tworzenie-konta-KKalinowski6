@@ -1,3 +1,5 @@
+from datetime import date
+
 class Konto:
     def __init__(self, imie, nazwisko, pesel, kod_rabatowy = None):
         if (len(pesel) == 11):
@@ -51,3 +53,16 @@ class Konto:
 
     def Sprawdzanie_3_ostatnich(self):
         return False if(min(self.historia[-3:]) < 0) else True
+
+    def Wyslij_historie_na_maila(self, adresat, smtp_connector):
+        temat = f"Wyciąg z dnia {date.today()}"
+        tresc = f"{self.Tresc_maila()} {self.historia}"
+        
+        powodzenie = smtp_connector.wyslij(temat, tresc, adresat)
+        if (powodzenie):
+            return True
+        else:
+            return False
+    
+    def Tresc_maila(self):
+        return "Twoja historia konta to:"
